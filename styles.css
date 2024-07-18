@@ -1,0 +1,142 @@
+body {
+    margin: 0;
+    background: #1E1E1E;
+}
+
+.topbar {
+    height: 42px;
+    padding: 6px;
+
+    background: #121212;
+}
+
+.topbar-content {
+    height: 100%;
+    width: 80%;
+    min-width: fit-content;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    display: flex;
+}
+
+.topbar-button {
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+
+    padding: 10px;
+    padding-left: 14px;
+    padding-right: 14px;
+
+    font-size: 20px;
+
+    background: #0000;
+    color: white;
+
+    border: none;
+    cursor: pointer;
+}
+
+.topbar-button-icon {
+    height: 100%;
+}
+
+.topbar-button-text {
+    margin-left: 10px;
+}
+
+.content-container {
+    margin-left: auto;
+    margin-right: auto;
+
+    width: 80%;
+    min-width: fit-content;
+
+    background: #1E1E1E;
+}
+
+.flag-container {
+    width: fit-content;
+    height: 400px;
+
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.flag-border {
+    padding: 4px;
+    background: #2C2C2C;
+    border-radius: 8px;
+    height: 100%;
+}
+
+.flag-image {
+    height: 100%;
+    border-radius: 6px;
+}
+
+.anti-aliasing-disabled {
+    image-rendering: optimizeSpeed;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+    image-rendering: optimize-contrast;
+    -ms-interpolation-mode: nearest-neighbor;
+}
+
+
+.answer-option-container {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.answer-option {
+    width: 100%;
+    height: 58px;
+    padding: 10px;
+    font-size: 16px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+}
+
+.answer-option:disabled {
+    background: #DDD;
+    color: #111;
+}
+
+.answer-correct:disabled {
+    background: #03d618;
+}
+
+.answer-wrong:disabled {
+    background: #e10606;
+}
+
+
+.continue-button-container {
+    display: flex;
+    justify-content: center;
+
+    padding: 10px;
+}
+
+.continue-button {
+    padding: 10px;
+    padding-left: 14px;
+    padding-right: 14px;
+    font-size: 16px;
+
+    border-radius: 6px;
+}

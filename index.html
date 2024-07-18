@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+
+    <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
+    <title>Flag Training</title>
+</head>
+
+<body>
+    <!-- Hidden upload element -->
+    <input class="flag-stats-upload" type="file" accept=".stats" style="display: none;">
+
+    <div class="topbar">
+        <div class="topbar-content">
+            <button class="download-button topbar-button">
+                <img class="topbar-button-icon" src="icons/download.png">
+                <span class="topbar-button-text">Download Stats</span>
+            </button>
+            <button class="upload-button topbar-button">
+                <img class="topbar-button-icon" src="icons/upload.png">
+                <span class="topbar-button-text">Upload Stats</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="content-container">
+
+        <div class="flag-container">
+            <div class="flag-border">
+                <img class="flag-image">
+            </div>
+        </div>
+
+        <div class="answer-option-container">
+
+        </div>
+
+        <div class="continue-button-container hidden">
+            <button class="continue-button">Continue ❯</button>
+        </div>
+    </div>
+
+    <!-- Load flag image locations -->
+    <script src="flagData.js"></script>
+    <!-- Load country borders -->
+    <script src="countries.geojson.js"></script>
+
+    <script src="index.js" defer></script>
+</body>
+
+</html>
+
+
+<!-- Change image links to downloaded flag images -->
+<!-- Add flags of non-un countries -->
+<!-- All images to .svg => remove anti-aliasing disabling -->
+<!-- Map showing the position of the country -->
+
+
+<!-- Add flag of Sint Eustatius -->
+<!-- Add flag of Saba -->
