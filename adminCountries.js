@@ -1,0 +1,15 @@
+let adminCountries = {
+    "BES": "NLD",
+    "CXR": "-99",
+    "CCK": "-99",
+    "ENG": "GBR",
+    "GUF": "FRA",
+    "GLP": "FRA",
+    "MTQ": "FRA",
+    "MYT": "FRA",
+    "NIR": "GBR",
+    "REU": "FRA",
+    "SCT": "GBR",
+    "TKL": "NZL",
+    "WLS": "GBR",
+};
