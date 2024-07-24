@@ -295,12 +295,14 @@ function submitMapGuess(clickedCountry)
     {
         flagStats[currentFlag][1] += 1;
         console.log("Guess was correct");
+        document.querySelector(".map-container").classList.add("guess-correct");
     }
     else
     {
         flagStats[currentFlag][2] += 1;
         console.log("Guess was wrong!");
         highlightWrongCountry();
+        document.querySelector(".map-container").classList.add("guess-wrong");
     }
     clickedCountryLayer = undefined;
 

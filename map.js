@@ -91,6 +91,9 @@ function resetMap()
     geojson.resetStyle();
     map.removeLayer(marker);
     map.setView([26.75, 14.25], 2);
+
+    document.querySelector(".map-container").classList.remove("guess-correct");
+    document.querySelector(".map-container").classList.remove("guess-wrong");
 }
 
 function handleFeatureClick(feature, layer)
