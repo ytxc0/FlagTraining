@@ -2,6 +2,7 @@ let iteration = getIteration();
 let flagStats = getFlagStats();
 let currentFlag;
 let isAnswerSubmitted = true;
+let answerMode = "map";
 
 /**
  * Load the current game number to calculate flag recencies
@@ -92,58 +93,6 @@ function randomFromSeed(seed)
     return ((seed * prime1) % limitingNumber ^ (seed * prime2) % limitingNumber) * prime1 % prime2 / prime2;
 }
 
-// TODO remove this function; only to test the strength of the pseudo random algorythm
-function testRandom()
-{
-    let loopIterations = 100000;
-    let start = 16777216;
-    let totalDiff = 0;
-    let lastValue = 0;
-    let distribution = {
-        "0.1": 0,
-        "0.2": 0,
-        "0.3": 0,
-        "0.4": 0,
-        "0.5": 0,
-    };
-    for (let i = start; i < start + loopIterations; i++)
-    {
-        let currentValue = randomFromSeed(i);
-
-        let currentDiff = Math.abs(lastValue - currentValue);
-        if (currentDiff > .5)
-        {
-            currentDiff = 1 - currentDiff;
-        }
-
-        if (currentDiff < .1)
-        {
-            distribution["0.1"] += 1;
-        }
-        else if (currentDiff < .2)
-        {
-            distribution["0.2"] += 1;
-        }
-        else if (currentDiff < .3)
-        {
-            distribution["0.3"] += 1;
-        }
-        else if (currentDiff < .4)
-        {
-            distribution["0.4"] += 1;
-        }
-        else if (currentDiff < .5)
-        {
-            distribution["0.5"] += 1;
-        }
-
-        totalDiff += currentDiff;
-
-        currentValue = lastValue;
-    }
-    console.log(totalDiff, totalDiff / loopIterations, distribution);
-}
-
 
 /**
  * Displays the 'hardest' flag by rating. 
@@ -170,10 +119,11 @@ function showHardestFlag()
         let recency = iteration - flagStats[flag][0];
         let wins = flagStats[flag][1];
         let loses = flagStats[flag][2];
+
         let rndDeviation = randomFromSeed(recency * wins + recency * loses + iteration) / 1000;
 
         let rating = recency * Math.pow((loses + 1) / (loses + wins + 1), 2) + rndDeviation;
-        if (highestRating < rating)
+        if (highestRating <= rating)
         {
             highestRating = rating;
             flagWithHighestRating = flag;
@@ -257,7 +207,7 @@ function showAnswerOptions(flag)
     let optionDuplicates = 0;
     while (answerOptions.length < 11)
     {
-        let option = flags[Math.floor(randomFromSeed(iteration * (answerOptions.length + optionDuplicates + 1)) * flags.length)];
+        let option = flags[Math.floor(randomFromSeed((iteration + 1) * (answerOptions.length + optionDuplicates + 1)) * flags.length)];
         if (!answerOptions.includes(option) && option != flag)
         {
             answerOptions.push(option);
@@ -268,9 +218,9 @@ function showAnswerOptions(flag)
         }
     }
     // Insert correct answer at a random index
-    answerOptions.splice(Math.floor(randomFromSeed(iteration) * answerOptions.length), 0, flag);
+    answerOptions.splice(Math.floor(randomFromSeed(iteration) * (answerOptions.length + 1)), 0, flag);
 
-    let optionContainer = document.querySelector(".answer-option-container");
+    let optionContainer = document.querySelector(".answer-option-button-container");
     optionContainer.innerHTML = "";
     answerOptions.forEach(option =>
     {
@@ -304,7 +254,7 @@ function submitAnswer(target)
         button.disabled = true;
     });
 
-    if (answer == currentFlag)
+    if (answer == displayNames[currentFlag])
     {
         target.classList.add("answer-correct");
 
@@ -316,7 +266,7 @@ function submitAnswer(target)
         for (let i = 0; i < buttons.length; i++)
         {
             let button = buttons[i];
-            if (button.innerHTML == currentFlag)
+            if (button.innerHTML == displayNames[currentFlag])
             {
                 button.classList.add("answer-correct");
                 break;
@@ -325,6 +275,34 @@ function submitAnswer(target)
 
         flagStats[currentFlag][2] += 1;
     }
+
+    // Alter iteration value slightly to prevent repeating loops
+    let rndDeviation = Math.floor(randomFromSeed(iteration) * 6);
+    flagStats[currentFlag][0] = iteration + rndDeviation;
+    writeFlagStats(flagStats);
+    incrementIteration();
+}
+
+/**
+ * Handles the submit of the map guess
+ * @param {string} clickedCountry Name of the clicked country
+ */
+function submitMapGuess(clickedCountry)
+{
+    highlightCorrectCountry();
+
+    if (clickedCountry == currentFlag || (Object.keys(adminCountries).includes(currentFlag) && adminCountries[currentFlag] == clickedCountry))
+    {
+        flagStats[currentFlag][1] += 1;
+        console.log("Guess was correct");
+    }
+    else
+    {
+        flagStats[currentFlag][2] += 1;
+        console.log("Guess was wrong!");
+        highlightWrongCountry();
+    }
+    clickedCountryLayer = undefined;
 
     // Alter iteration value slightly to prevent repeating loops
     let rndDeviation = Math.floor(randomFromSeed(iteration) * 6);
@@ -404,22 +382,60 @@ function uploadFlagStats()
 }
 
 
+/**
+ * Update the display according to the current answer mode
+ */
+function enforceAnswerMode()
+{
+    let mapContainer = document.querySelector(".map-container");
+    let answerOptionsContainer = document.querySelector(".answer-option-container");
+
+    if (answerMode == "map")
+    {
+        mapContainer.style.display = "block";
+        answerOptionsContainer.style.display = "none";
+    }
+    else
+    {
+        mapContainer.style.display = "none";
+        answerOptionsContainer.style.display = "block";
+    }
+}
+
 
 // Handle keyboard presses for 'show hardest flag' (space) and 'show random flag' (r) 
 document.addEventListener("keydown", (e) =>
 {
-    if (!isAnswerSubmitted)
+    if (answerMode == "buttons")
     {
-        return;
-    }
+        if (!isAnswerSubmitted)
+        {
+            return;
+        }
 
-    if (e.key == "r")
-    {
-        showRandomFlag();
+        if (e.key == "r")
+        {
+            showRandomFlag();
+        }
+        if (e.key == " ")
+        {
+            showHardestFlag();
+        }
     }
-    if (e.key == " ")
+    else if (answerMode == "map")
     {
-        showHardestFlag();
+        if (e.key == " ")
+        {
+            if (clickedCountryLayer == undefined)
+            {
+                resetMap();
+                showHardestFlag();
+            }
+            else
+            {
+                submitMapGuess(clickedCountryLayer.feature.properties.ISO_A3);
+            }
+        }
     }
 });
 
@@ -441,59 +457,16 @@ document.querySelector(".upload-button").onclick = (e) =>
     uploadFlagStats();
 };
 
+// Toggle answer mode between button select / locate on map
+document.querySelector(".toggle-mode-button").onclick = (e) =>
+{
+    answerMode = answerMode != "map" ? "map" : "buttons";
+    enforceAnswerMode();
+};
+
 
 // Show the 'hardest' flag when the page loads
 showHardestFlag();
 
-
-
-
-let portugalPoint = [-6.996141, 38.166381];
-
-function isPointInPolygon(point, polygon)
-{
-    let pointOutside = [0, 90];
-
-    let xDiff = pointOutside[0] - point[0];
-    let yDiff = pointOutside[1] - point[1];
-
-    let raySlope = yDiff / xDiff;
-    let rayYIntercept = point[1] - raySlope * point[0];
-
-    console.log(`Ray function: ${raySlope}x + ${rayYIntercept}`);
-
-    for (let i = 0; i < polygon.length - 1; i++)
-    {
-        let lineStart = polygon[i];
-        let lineEnd = polygon[i + 1];
-
-        let xDiff = lineEnd[0] - lineStart[0];
-        let yDiff = lineEnd[1] - lineStart[1];
-
-        let lineSlope = yDiff / xDiff;
-        let lineYIntercept = lineStart[1] - lineSlope * lineStart[0];
-
-
-        xIntersect = (rayYIntercept - lineYIntercept) / (lineSlope - raySlope);
-
-        if (xIntersect > Math.min(lineStart[0], lineEnd[0]) && xIntersect < Math.max(lineStart[0], lineEnd[0]) &&
-            xIntersect > Math.min(point[0], pointOutside[0]) && xIntersect < Math.max(point[0], pointOutside[0]))
-        {
-            console.log(`Segment start: ${lineStart}; Segment end: ${lineEnd}`);
-            console.log(`Border segment line function: ${lineSlope}x + ${lineYIntercept}`);
-            console.log(`xIntersect: ${xIntersect}`);
-        }
-    }
-}
-
-function isPointInCountry(point, countryData)
-{
-    let startTime = new Date();
-    countryData.geometry.coordinates.forEach(poly =>
-    {
-        isPointInPolygon(point, poly);
-    });
-
-    let endTime = new Date();
-    console.log(`The calculation took ${endTime.getTime() - startTime.getTime()}ms`);
-}
+// Update answer mode when the page loads
+enforceAnswerMode();
