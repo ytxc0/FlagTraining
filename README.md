@@ -9,3 +9,5 @@ After opening the html in a browser, the user is shown a flag. They can either s
 Country shapes (geoJson) have been downloaded from [insert link here].
 
 Flag images are either links to flagpedia.net or .SVG or .PNG files downloaded from Wikipedia.
+
+The map is a (leaflet map)["leaflets.com"].
