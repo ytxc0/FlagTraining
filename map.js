@@ -25,10 +25,6 @@ let marker = L.marker([0, 0]);
 // Map click event
 map.on('click', (e) =>
 {
-    let lat = e.latlng.lat;
-    let lng = e.latlng.lng;
-
-    console.log(lat, lng);
     map.addLayer(marker);
     marker.setLatLng(e.latlng);
 });
@@ -66,7 +62,6 @@ function highlightCorrectCountry()
                 });
                 layer.bringToFront();
 
-                console.log(layer);
                 map.fitBounds(layer._latlngs);
             }
         }
