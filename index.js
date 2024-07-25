@@ -2,6 +2,7 @@ let iteration = getIteration();
 let flagStats = getFlagStats();
 let currentFlag;
 let isAnswerSubmitted = true;
+let isMapGuessSubmitted = false;
 let answerMode = "map";
 
 /**
@@ -192,6 +193,7 @@ function showFlag(flag)
 
     currentFlag = flag;
     isAnswerSubmitted = false;
+    isMapGuessSubmitted = false;
 
     showAnswerOptions(flag);
 }
@@ -304,6 +306,7 @@ function submitMapGuess(clickedCountry)
         highlightWrongCountry();
         document.querySelector(".map-container").classList.add("guess-wrong");
     }
+    isMapGuessSubmitted = true;
     clickedCountryLayer = undefined;
 
     // Alter iteration value slightly to prevent repeating loops
@@ -428,7 +431,7 @@ document.addEventListener("keydown", (e) =>
     {
         if (e.key == " ")
         {
-            if (clickedCountryLayer == undefined)
+            if (clickedCountryLayer == undefined || isMapGuessSubmitted)
             {
                 resetMap();
                 showHardestFlag();
