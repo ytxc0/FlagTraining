@@ -153,6 +153,8 @@ body {
     border-radius: 6px;
     border: none;
     outline: none;
+
+    cursor: default;
 }
 
 .guess-correct {
