@@ -14,7 +14,7 @@ let geojson = L.geoJson(countriesGeoJson, {
         opacity: 1,
         color: "#0000",
         dashArray: '3',
-        fillOpacity: 0.7
+        fillOpacity: 0.75
     },
     onEachFeature: handleFeatureClick
 }).addTo(map);
@@ -30,19 +30,26 @@ map.on('click', (e) =>
 });
 
 
+/**
+ * Applies 'selected' style to the given layer
+ * @param {layer} layer layer to be styled
+ */
 function highlightSelectedFeature(layer)
 {
     layer.setStyle({
         fillColor: "#1F77BA",
         weight: 1,
-        color: '#004177',
+        color: '#004884',
         dashArray: '',
-        fillOpacity: 0.7
+        fillOpacity: 0.75
     });
 
     layer.bringToFront();
 }
 
+/**
+ * Highlights the correct country on the map
+ */
 function highlightCorrectCountry()
 {
     Object.keys(map._layers).forEach(layerNumber =>
@@ -58,7 +65,7 @@ function highlightCorrectCountry()
                     weight: 1,
                     color: "#070",
                     dashArray: '',
-                    fillOpacity: 0.7
+                    fillOpacity: 0.75
                 });
                 layer.bringToFront();
 
@@ -68,6 +75,9 @@ function highlightCorrectCountry()
     });
 }
 
+/**
+ * Highlights the country the user clicked as wrong if it is
+ */
 function highlightWrongCountry()
 {
     clickedCountryLayer.setStyle({
@@ -81,6 +91,9 @@ function highlightWrongCountry()
     clickedCountryLayer.bringToFront();
 }
 
+/**
+ * Resets the map view
+ */
 function resetMap()
 {
     geojson.resetStyle();
@@ -91,6 +104,11 @@ function resetMap()
     document.querySelector(".map-container").classList.remove("guess-wrong");
 }
 
+/**
+ * Saves the clicked country and highlights it
+ * @param {_} feature 
+ * @param {layer} layer 
+ */
 function handleFeatureClick(feature, layer)
 {
     layer.on({
