@@ -226,7 +226,7 @@ function showAnswerOptions(flag)
     optionContainer.innerHTML = "";
     answerOptions.forEach(option =>
     {
-        optionContainer.innerHTML += `<button class="answer-option">${option}</button>`;
+        optionContainer.innerHTML += `<button class="answer-option">${displayNames[option]}</button>`;
     });
 
 
@@ -305,6 +305,7 @@ function submitMapGuess(clickedCountry)
         document.querySelector(".map-container").classList.add("guess-wrong");
     }
     isMapGuessSubmitted = true;
+    isAnswerSubmitted = true;
     clickedCountryLayer = undefined;
 
     // Alter iteration value slightly to prevent repeating loops
