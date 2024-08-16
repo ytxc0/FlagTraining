@@ -12,7 +12,7 @@ body {
 
 .topbar-content {
     height: 100%;
-    width: 80%;
+    width: 90%;
     min-width: fit-content;
 
     margin-left: auto;
@@ -52,13 +52,13 @@ body {
     margin-left: auto;
     margin-right: auto;
 
-    width: 80%;
+    width: 90%;
     min-width: fit-content;
 
     background: #1E1E1E;
 }
 
-.flag-container {
+.flag-container-buttons-mode {
     width: fit-content;
     height: 400px;
 
@@ -67,6 +67,16 @@ body {
 
     margin-left: auto;
     margin-right: auto;
+}
+
+.flag-container-map-mode {
+    position: absolute;
+    bottom: 16px;
+    right: 10px;
+    z-index: 1001;
+    max-height: 30vh;
+    min-height: 15vh;
+    height: 200px;
 }
 
 .flag-border {
@@ -149,7 +159,7 @@ body {
 
 #map {
     width: 100%;
-    height: 400px;
+    height: 87vh;
     border-radius: 6px;
     border: none;
     outline: none;

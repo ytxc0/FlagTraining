@@ -393,16 +393,21 @@ function enforceAnswerMode()
 {
     let mapContainer = document.querySelector(".map-container");
     let answerOptionsContainer = document.querySelector(".answer-option-container");
+    let flagContainer = document.querySelector(".flag-container");
 
     if (answerMode == "map")
     {
         mapContainer.style.display = "block";
         answerOptionsContainer.style.display = "none";
+        flagContainer.classList.add("flag-container-map-mode");
+        flagContainer.classList.remove("flag-container-buttons-mode");
     }
     else
     {
         mapContainer.style.display = "none";
         answerOptionsContainer.style.display = "block";
+        flagContainer.classList.add("flag-container-buttons-mode");
+        flagContainer.classList.remove("flag-container-map-mode");
     }
 }
 
