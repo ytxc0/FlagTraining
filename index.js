@@ -4,6 +4,9 @@ let currentFlag;
 let isAnswerSubmitted = true;
 let isMapGuessSubmitted = false;
 let answerMode = "map";
+let soundCorrect = new Audio("sounds/correct.wav");
+let soundIncorrect = new Audio("sounds/incorrect.wav");
+soundCorrect.volume = 0.25;
 
 /**
  * Load the current game number to calculate flag recencies
@@ -297,12 +300,14 @@ function submitMapGuess(clickedCountry)
     {
         flagStats[currentFlag][1] += 1;
         document.querySelector(".map-container").classList.add("guess-correct");
+        soundCorrect.play();
     }
     else
     {
         flagStats[currentFlag][2] += 1;
         highlightWrongCountry();
         document.querySelector(".map-container").classList.add("guess-wrong");
+        soundIncorrect.play();
     }
     isMapGuessSubmitted = true;
     isAnswerSubmitted = true;
