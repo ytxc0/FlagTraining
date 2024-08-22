@@ -7,6 +7,7 @@ let answerMode = "map";
 let soundCorrect = new Audio("sounds/correct.wav");
 let soundIncorrect = new Audio("sounds/incorrect.wav");
 soundCorrect.volume = 0.25;
+soundIncorrect.volume = 0.5;
 
 /**
  * Load the current game number to calculate flag recencies
@@ -113,7 +114,7 @@ function showHardestFlag()
     let highestRating = 0;
     let flagWithHighestRating = "";
 
-    // TODO remove
+    // log current stats in console
     let debugRec = 0;
     let debugWins = 0;
     let debugLoses = 0;
@@ -132,7 +133,7 @@ function showHardestFlag()
             highestRating = rating;
             flagWithHighestRating = flag;
 
-            // TODO remove
+            // log current stats in console
             debugRec = recency;
             debugWins = wins;
             debugLoses = loses;
@@ -140,6 +141,8 @@ function showHardestFlag()
     });
 
     showFlag(flagWithHighestRating);
+
+    // log current stats in console
     console.log(`Showing flag with these stats:\nRecency: ${debugRec} (Iteration: ${iteration})\nWins: ${debugWins}\nLoses: ${debugLoses}\nRating: ${highestRating}`);
 }
 
