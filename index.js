@@ -179,6 +179,29 @@ function showRandomFlag()
 }
 
 /**
+ * Displays the least recent flag
+ */
+function showLeastRecentFlag()
+{
+    let leastRecentFlag;
+    let highestRecencyValue = 0;
+    Object.keys(flagData).forEach(flag => 
+    {
+        let recency = iteration - flagStats[flag][0];
+        if (highestRecencyValue < recency)
+        {
+            highestRecencyValue = recency;
+            leastRecentFlag = flag;
+        }
+    });
+
+    showFlag(leastRecentFlag);
+
+    // log recency value of flag in console
+    console.log(`Showing flag with Recency ${iteration - flagStats[leastRecentFlag][0]}`);
+}
+
+/**
  * Display the given flag
  * @param {string} flag Name of the flag
  */
@@ -438,6 +461,10 @@ document.addEventListener("keydown", (e) =>
         {
             showHardestFlag();
         }
+        if (e.key == "q")
+        {
+            showLeastRecentFlag();
+        }
     }
     else if (answerMode == "map")
     {
@@ -452,6 +479,11 @@ document.addEventListener("keydown", (e) =>
             {
                 submitMapGuess(clickedCountryLayer.feature.properties.ISO_A3);
             }
+        }
+        if (e.key == "q" && (clickedCountryLayer == undefined || isMapGuessSubmitted))
+        {
+            resetMap();
+            showLeastRecentFlag();
         }
     }
 });
