@@ -475,7 +475,7 @@ document.querySelector(".upload-button").onclick = (e) =>
 };
 
 // Toggle answer mode between button select / locate on map
-document.querySelector(".toggle-mode-button").onclick = (e) =>
+document.querySelector(".toggle-ui-button").onclick = (e) =>
 {
     answerMode = answerMode != "map" ? "map" : "buttons";
     enforceAnswerMode();
